@@ -2,10 +2,10 @@
   "name": "api_rate_limiter",
   "version": "1.0.0",
   "description": "API rate limiter is service for sending SMS and E-mail notifications. They are selling this service to different clients and each client has specific limits on the number of requests they can send in a month.",
-  "main": "index.ts",
+  "main": "server.ts",
   "scripts": {
     "start": "npm run build && node build/index.js",
-    "test": "jest --coverage",
+    "test": "jest --coverage --runInBand --forceExit",
     "dev": "npx nodemon",
     "build": "rimraf ./build && tsc"
   },

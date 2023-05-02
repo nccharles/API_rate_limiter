@@ -2,6 +2,9 @@ import request from 'supertest';
 import app from '../index';
 
 describe('routes tests', () => {
+    afterAll(async () => {
+        await new Promise(resolve => setTimeout(() => resolve(app), 500));
+    });
     it('should return 200 status code for the / route', async () => {
         const response = await request(app).get('/');
         expect(response.status).toBe(200);
@@ -28,4 +31,5 @@ describe('routes tests', () => {
         // Expect the response to have a 429 status code
         expect(response.status).toBe(429);
     });
+
 });
