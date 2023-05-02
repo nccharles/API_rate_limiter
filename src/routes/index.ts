@@ -8,6 +8,10 @@ const router = express.Router();
 // Apply rate limiting middleware to all routes
 router.use(createRateLimiter());
 
+// Route for the root path
+router.get('/', (req, res) => {
+    return res.status(200).json({ status: 200, message: 'Welcome to the Notification Service API!' });
+});
 // Route for sending SMS notifications
 router.post('/sms', async (req, res) => {
     const { phoneNumber, message } = req.body;

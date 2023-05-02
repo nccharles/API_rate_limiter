@@ -1,16 +1,6 @@
-import express from 'express';
 import request from 'supertest';
-import { createRateLimiter } from '../middlewares/rateLimiter';
-import router from '../routes';
+import app from '../index';
 
-const app = express();
-
-// Apply the rate limiter middleware to all routes in the router
-router.use(createRateLimiter());
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use('/', router);
 describe('routes tests', () => {
     it('should return 200 status code for the / route', async () => {
         const response = await request(app).get('/');

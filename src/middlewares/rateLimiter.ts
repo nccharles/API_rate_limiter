@@ -10,7 +10,7 @@ export const createRateLimiter = () => {
     try {
       const rateLimiterResponse = await rateLimiter.consume(req.ip); // Consume 1 point for each request
     //   set the Retry-After header to the number of seconds before the client can retry
-    console.log(rateLimiterResponse);
+    // console.log(rateLimiterResponse);
     const retryAfter = rateLimiterResponse.msBeforeNext / 1000;
       res.set('Retry-After',retryAfter.toString() ); // Set the Retry-After header to the number of seconds before the client can retry
       next();
