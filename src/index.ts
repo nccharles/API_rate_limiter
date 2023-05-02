@@ -1,14 +1,18 @@
 import express from 'express';
+import routes from "./routes";
 
 const app = express();
+const port = 3000;
 
-// Routes
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.get('/', (req, res) => {
-    res.send('Welcome to sms and email notification service!');
-});
+    res.send('Welcome to the Notification Service!');
+})
 
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
+app.use('/', routes);
+
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
 });
