@@ -1,4 +1,4 @@
-name: "run actions"
+name: Netlify Deployment
 on: [push]
 jobs:
   build:
