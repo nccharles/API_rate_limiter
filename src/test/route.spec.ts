@@ -3,7 +3,7 @@ import app from '../index';
 import {randomUUID} from "crypto";
 import Redis from'ioredis'
 
-const redisClient = new Redis("redis://localhost:6379");
+const redisClient = new Redis("redis://default:DxIdn1ucSsAiXsMlY11Yq3TIo7VkjmdJ@redis-19696.c293.eu-central-1-1.ec2.cloud.redislabs.com:19696");
 
 describe('routes tests', () => {
     beforeEach(async () => {

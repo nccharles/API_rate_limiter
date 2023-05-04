@@ -12,7 +12,7 @@ const rateLimitOptions = {
 const rateLimiterMemory = new RateLimiterMemory(rateLimitOptions);
 
 // Create a Redis-based rate limiter for requests from a specific client on a per-month basis
-const redisClient = new Redis("redis://red-ch9cm4hmbg51auts16bg:6379"); // Replace with your Redis URL
+const redisClient = new Redis("redis://default:DxIdn1ucSsAiXsMlY11Yq3TIo7VkjmdJ@redis-19696.c293.eu-central-1-1.ec2.cloud.redislabs.com:19696"); // Replace with your Redis URL
 const rateLimiterRedis = new RateLimiterRedis({
   storeClient: redisClient,
   keyPrefix: 'rateLimiter',
