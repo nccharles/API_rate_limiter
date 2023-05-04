@@ -4,12 +4,12 @@ const {compilerOptions} = require('./tsconfig.json')
 module.exports = {
     modulePaths: ["<rootDir>/src"],
     testPathIgnorePatterns : [
-        "<rootDir>/dist",
+        "<rootDir>/build",
         "<rootDir>/coverage",
         "<rootDir>/deploy",
         "<rootDir>/test",
     ],
-    modulePathIgnorePatterns: ["<rootDir>/dist"],
+    modulePathIgnorePatterns: ["<rootDir>/build"],
     moduleDirectories: ["node_modules", "<rootDir>/src"],
     transform: { // override default transform to use a custom inline tsconfig
         // process js/ts with `ts-jest`
