@@ -1,9 +1,111 @@
 openapi: 3.0.3
 info:
-  title: $Title$
-  description: $Title$
+  title: API rate limiter
+  description: API rate limiter
   version: 1.0.0
 servers:
-  - url: '$https$'
+  - url: 'https://rate-limiter-api.onrender.com'
+    description: API rate limiter Base URL
+    variables:
+      version:
+        enum:
+          - v3
+        default: v3
+
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+
 paths:
-  $END$
+  /api/v3:
+    get:
+      summary: Get API Base URL
+      description: Welcome to the API rate limiter
+      parameters:
+        - name: client-id
+          in: header
+          description: The client ID
+          required: true
+          type: string
+      responses:
+        200:
+          description: The API version
+          schema:
+            type: object
+            properties:
+              version:
+                type: string
+              notes:
+                type: string
+              contact:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  email:
+                    type: string
+                  url:
+                    type: string
+                    format: url
+  /api/v3/email:
+    post:
+      summary: Send an email message
+      description: Send an email message
+      parameters:
+        - name: client-id
+          in: header
+          description: The client ID
+          required: true
+          type: string
+        - name: payload
+          in: body
+          description: The payload of the message
+          required: true
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              subject:
+                type: string
+              message:
+                type: string
+      responses:
+        200:
+          description: The message was sent successfully
+        400:
+          description: The payload is invalid
+        429:
+          description: Too many requests
+
+  /api/v3/sms:
+    post:
+      summary: Send an SMS message
+      description: Send an SMS message
+      parameters:
+        - name: client-id
+          in: header
+          description: The client ID
+          required: true
+          type: string
+        - name: payload
+          in: body
+          description: The payload of the message
+          required: true
+          schema:
+            type: object
+            properties:
+              phoneNumber:
+                type: string
+              message:
+                type: string
+      responses:
+        200:
+          description: The message was sent successfully
+        400:
+          description: The payload is invalid
+        429:
+          description: Too many requests
