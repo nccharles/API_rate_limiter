@@ -1,22 +1,65 @@
-import { RateLimiterMemory } from 'rate-limiter-flexible';
+import { RateLimiterMemory, RateLimiterRedis } from 'rate-limiter-flexible'
+import Redis from'ioredis'
 import express from 'express';
-const rateLimiter = new RateLimiterMemory({
-  points: 10, // Number of requests allowed before rate limiting kicks in
-  duration: 60, // Duration in seconds of the sliding time window
+
+// Define the rate limiting options
+const rateLimitOptions = {
+  points: 1, // Number of requests allowed
+  duration: 1, // Time frame in seconds
+};
+
+// Create a memory-based rate limiter for requests within the same time window from a client
+const rateLimiterMemory = new RateLimiterMemory(rateLimitOptions);
+
+// Create a Redis-based rate limiter for requests from a specific client on a per-month basis
+const redisClient = new Redis("redis://red-ch9cm4hmbg51auts16bg:6379"); // Replace with your Redis URL
+const rateLimiterRedis = new RateLimiterRedis({
+  storeClient: redisClient,
+  keyPrefix: 'rateLimiter',
+  points: 100, // Number of requests allowed
+  duration: 30 * 24 * 60 * 60, // Time frame in seconds (30 days)
 });
 
-export const createRateLimiter = () => {
-  return async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    try {
-      const rateLimiterResponse = await rateLimiter.consume(req.ip); // Consume 1 point for each request
-    //   set the Retry-After header to the number of seconds before the client can retry
-    // console.log(rateLimiterResponse);
-    const retryAfter = rateLimiterResponse.msBeforeNext / 1000;
-      res.set('Retry-After',retryAfter.toString() ); // Set the Retry-After header to the number of seconds before the client can retry
-      next();
-    } catch (rateLimiterResponse: any) {
-      // If the rate limiter returns an error, send a 429 (Too Many Requests) response to the client
-      return res.status(429).json({ status: 429, message: `Too many requests, please try again in ${rateLimiterResponse.msBeforeNext / 1000} seconds.` });
-    }
-  };
+const globalRateLimiterRedis = new RateLimiterRedis({
+    storeClient: redisClient,
+    keyPrefix: 'globalRateLimiter',
+    points: 10, // Number of requests allowed
+    duration: 1, // Time frame in seconds
+});
+
+// Middleware for rate limiting requests within the same time window from a client
+export const rateLimiterMiddleware = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  const clientId: any = req.headers['client-id'] || req.ip; // Replace with your client ID header
+  rateLimiterMemory.consume(clientId)
+      .then(() => {
+        next();
+      })
+      .catch(() => {
+        return res.status(429).json({ status: 429, message: `Too many requests, please try again later.` });
+      });
 };
+
+// Middleware for rate limiting requests from a specific client on a per-month basis
+export const rateLimiterRedisMiddleware = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  const clientId: any = req.headers['client-id'] || req.ip; // Replace with your client ID header
+  rateLimiterRedis.consume(clientId, 1)
+      .then(() => {
+        next();
+      })
+      .catch(() => {
+        return res.status(429).json({ status: 429, message: `Too many requests, please try again later.` });
+      });
+};
+
+// Middleware for rate limiting requests across the entire system
+export const globalRateLimiterRedisMiddleware = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  const clientId = 'global';
+    globalRateLimiterRedis.consume(clientId, 1)
+      .then(() => {
+        next();
+      })
+      .catch(() => {
+        return res.status(429).json({ status: 429, message: `Too many requests, please try again later.` });
+      });
+};
+

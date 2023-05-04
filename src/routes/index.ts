@@ -1,12 +1,12 @@
 import express from 'express';
-import { createRateLimiter } from '../middlewares/rateLimiter';
+import { rateLimiterMiddleware, rateLimiterRedisMiddleware, globalRateLimiterRedisMiddleware} from "../middlewares/rateLimiter";
 import { sendEmail } from '../controllers/email.controller';
 import { sendSMS } from '../controllers/sms.controller';
 
 const router = express.Router();
-
-// Apply rate limiting middleware to all routes
-router.use(createRateLimiter());
+router.use(rateLimiterMiddleware)
+router.use(globalRateLimiterRedisMiddleware)
+router.use(rateLimiterRedisMiddleware)
 
 // Route for the root path
 router.get('/', (req, res) => {

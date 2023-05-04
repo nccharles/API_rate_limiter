@@ -1,12 +1,22 @@
 import request from 'supertest';
 import app from '../index';
+import {randomUUID} from "crypto";
+import Redis from'ioredis'
+
+const redisClient = new Redis("redis://localhost:6379");
 
 describe('routes tests', () => {
+    beforeEach(async () => {
+        // Delete all data in Redis before running the test
+        await redisClient.flushdb();
+    });
+
     afterAll(async () => {
-        await new Promise(resolve => setTimeout(() => resolve(app), 500));
+        // Close the Redis connection after running the test
+        await redisClient.quit();
     });
     it('should return 200 status code for the / route', async () => {
-        const response = await request(app).get('/');
+        const response = await request(app).get('/').set('client-id', randomUUID());
         expect(response.status).toBe(200);
     });
     test.each(['email', 'sms'])('should return 200 status code for the /%s route', async (route) => {
@@ -16,15 +26,12 @@ describe('routes tests', () => {
         } else if (route === 'sms') {
             payroad = {phoneNumber: '1234567890', message: 'Hello world!'};
         }
-        const response = await request(app).post(`/${route}`).send(payroad);
+        const response = await request(app).post(`/${route}`).set('client-id', randomUUID()).send(payroad);
         expect(response.status).toBe(200);
     });
     it('should return 429 status code for too many requests', async () => {
-        // Send 10 requests to the /sms route
-        for (let i = 0; i < 10; i++) {
-            await request(app).post('/sms').send({phoneNumber: '1234567890', message: 'Hello world!'});
-        }
-
+        // Send 1 requests to the /sms route
+        await request(app).post('/sms').send({phoneNumber: '1234567890', message: 'Hello world!'});
         // Send 1 more request to the /sms route
         const response = await request(app).post('/sms').send({phoneNumber: '1234567890', message: 'Hello world!'});
 
@@ -32,4 +39,61 @@ describe('routes tests', () => {
         expect(response.status).toBe(429);
     });
 
+    it('should return 429 status code for too many requests across the entire system', async () => {
+        const requests = [];
+
+        // Send 10 requests to the /sms route
+        for (let i = 0; i < 10; i++) {
+            const requestPromise = request(app)
+                .post('/sms')
+                .set('client-id', randomUUID())
+                .send({phoneNumber: '1234567890', message: 'Hello world!'});
+
+            requests.push(requestPromise);
+        }
+
+        // Send 1 more request to the /sms route
+        const additionalRequest = request(app)
+            .post('/sms')
+            .set('client-id', randomUUID())
+            .send({phoneNumber: '1234567890', message: 'Hello world!'});
+
+        requests.push(additionalRequest);
+
+        // Wait for all requests to complete
+        const responses = await Promise.all(requests);
+
+        // Expect the last response to have a 429 status code
+        expect(responses[responses.length - 1].status).toBe(429);
+    });
+
+    it('should return 429 status code for too many requests from a specific client on a per-month basis', async () => {
+        // Send 100 requests to the /sms route
+        const clientID=randomUUID()
+        const requests = [];
+
+        // Send 100 requests to the /sms route
+        for (let i = 0; i < 100; i++) {
+            const requestPromise = request(app)
+                .post('/sms')
+                .set('client-id', clientID)
+                .send({phoneNumber: '1234567890', message: 'Hello world!'});
+
+            requests.push(requestPromise);
+        }
+
+        // Send 1 more request to the /sms route
+        const additionalRequest = request(app)
+            .post('/sms')
+            .set('client-id', clientID)
+            .send({phoneNumber: '1234567890', message: 'Hello world!'});
+
+        requests.push(additionalRequest);
+
+        // Wait for all requests to complete
+        const responses = await Promise.all(requests);
+
+        // Expect the last response to have a 429 status code
+        expect(responses[responses.length - 1].status).toBe(429);
+    });
 });
