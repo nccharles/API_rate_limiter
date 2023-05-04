@@ -38,10 +38,10 @@ npm run test // for testing
 ```
 
 #### API URL
-- https://rate-limiter-api.onrender.com
+- https://rate-limiter-api.onrender.com/api/v3
 
 #### API Documentation
--  https://rate-limiter-api.onrender.com/api-docs
+-  https://rate-limiter-api.onrender.com/api/v3/api-docs
 
 #### User Access
 **note** you should Set Client-Id in the header to test the endpoints or your IP will be used as a client id
@@ -73,23 +73,21 @@ To test the sms endpoint, use the following example:
 - create a folder on local machine
 - cd in to the folder and call a git init
 - git clone repository
-- yarn to install development dependencies
+- npm install to install development dependencies
 
 
 #### Endpoints
-| Verb | Endpoint                                    | Description      |
-|------|---------------------------------------------|------------------|
-| GET  | https://rate-limiter-api.onrender.com/      | Welcome Endpoint |
-| POST | https://rate-limiter-api.onrender.com/sms   | send sms         |
-| POST | https://rate-limiter-api.onrender.com/email | send email       |
+| Verb | Endpoint                                           | Description      |
+|------|----------------------------------------------------|------------------|
+| GET  | https://rate-limiter-api.onrender.com/api/v3       | Welcome Endpoint |
+| POST | https://rate-limiter-api.onrender.com/api/v3/sms   | send sms         |
+| POST | https://rate-limiter-api.onrender.com/api/v3/email | send email       |
 
 
 #### Running Tests
 Tests are run by calling
 ```
-yarn
-yarn run test:db:migrate
-yarn run test
+npm run test
 ```
 after installing and setting up testing suites:
 - jest

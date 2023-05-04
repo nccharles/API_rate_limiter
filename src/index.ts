@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/', routes);
+app.use('/api/v3', routes);
 
 // if (cluster.isMaster) {
 //     console.log(`Master ${process.pid} is running`);
