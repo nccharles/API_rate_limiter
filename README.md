@@ -4,8 +4,7 @@
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=nccharles_API_rate_limiter&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=nccharles_API_rate_limiter)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=nccharles_API_rate_limiter&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=nccharles_API_rate_limiter)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=nccharles_API_rate_limiter&metric=bugs)](https://sonarcloud.io/summary/new_code?id=nccharles_API_rate_limiter)
-[![Coverage Status](https://coveralls.io/repos/github/nccharles/Pro-Lite-API/badge.png?branch=develop)](https://coveralls.io/github/nccharles/Pro-Lite-API?branch=develop)
-
+[![Coverage Status](https://coveralls.io/repos/github/nccharles/API_rate_limiter/badge.svg?branch=main)](https://coveralls.io/github/nccharles/API_rate_limiter?branch=main)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 # API rate limiter
 API rate limiter is service for sending SMS and E-mail notifications. They are selling this service to different clients and each client has specific limits on the number of requests they can send in a month.
