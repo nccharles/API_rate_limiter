@@ -35,13 +35,13 @@
         ],
         "summary": "Welcome to API rate limiter",
         "description": "This is Endpoint that allows users to access the API rate limiter",
-        "operationId": "WelcomeGet",
+        "operationId": "Welcome",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "client_id",
+            "name": "Client_ID",
             "in": "header",
             "required": true,
             "type": "string",
@@ -50,12 +50,16 @@
                 }
             }
         ],
-        "responses": {
-          "OK": {
+        "responses": [{
+          "200": {
             "description": "Welcome to API rate limiter",
             "headers": {}
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "headers": {}
           }
-        },
+        }],
         "deprecated": false
       }
     },
@@ -75,7 +79,7 @@
         ],
         "parameters": [
           {
-            "name": "client_id",
+            "name": "Client_ID",
             "in": "header",
             "required": true,
             "type": "string"
@@ -118,7 +122,7 @@
         ],
         "parameters": [
           {
-            "name": "client_id",
+            "name": "Client_ID",
             "in": "header",
             "required": true,
             "type": "string",
@@ -151,7 +155,7 @@
     "Client": {
       "type": "object",
       "properties": {
-        "client_id": {
+        "Client_ID": {
           "type": "string",
             "default": "GH67-86HFY-8JHJ"
         }

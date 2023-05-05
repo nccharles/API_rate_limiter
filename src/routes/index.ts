@@ -6,9 +6,9 @@ import { sendSMS } from '../controllers/sms.controller';
 
 
 const router = express.Router();
-router.use(rateLimiterMiddleware)
 router.use(globalRateLimiterRedisMiddleware)
 router.use(rateLimiterRedisMiddleware)
+router.use(rateLimiterMiddleware)
 
 // Route for the root path
 router.get('/', (req, res) => {
