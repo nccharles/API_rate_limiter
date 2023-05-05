@@ -4,7 +4,7 @@ import { sendEmail } from '../controllers/email.controller';
 import { sendSMS } from '../controllers/sms.controller';
 import swaggerUi from 'swagger-ui-express';
 
-const swaggerDocument = require('../../swagger.yaml');
+const swaggerDocument = require('../../swagger.json');
 
 
 const router = express.Router();
