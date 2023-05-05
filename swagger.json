@@ -82,31 +82,20 @@
             "name": "client_id",
             "in": "header",
             "required": true,
-            "type": "string",
-            "schema": {
-              "$ref": "#/definitions/Client"
-            }
+            "type": "string"
           },
             {
-                "name": "message",
+              "name": "Body",
                 "in": "body",
                 "required": true,
                 "schema": {
                 "$ref": "#/definitions/SendSms"
                 }
-                },
-          {
-            "name": "phoneNumber",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/SendSms"
-            }
-          }
+                }
             ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "SMS sent successfully",
             "headers": {}
           },
             "429": {
@@ -137,26 +126,9 @@
             "in": "header",
             "required": true,
             "type": "string",
-            "schema": {
-              "$ref": "#/definitions/Client"
-            }
+            "default": null
           },
-          {"name": "subject",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/SendEmail"
-            }
-            },
-            {
-                "name": "email",
-                "in": "body",
-                "required": true,
-                "schema": {
-                "$ref": "#/definitions/SendEmail"
-                }
-                },
-            {"name": "message",
+          {"name": "Body",
             "in": "body",
             "required": true,
             "schema": {
@@ -166,7 +138,7 @@
         ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "Email sent successfully",
             "headers": {}
           },
             "429": {
@@ -184,7 +156,8 @@
       "type": "object",
       "properties": {
         "client_id": {
-          "type": "string"
+          "type": "string",
+            "default": "GH67-86HFY-8JHJ"
         }
       }
     },
