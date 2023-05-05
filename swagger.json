@@ -1,15 +1,222 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "$Title$",
-    "description": "$Title$",
-    "version": "1.0.0"
+    "description": "API rate limiter is service for sending SMS and E-mail notifications. They are selling this service to different clients and each client has specific limits on the number of requests they can send in a month.",
+    "version": "2.0.0",
+    "title": "API rate limiter",
+    "contact": {
+      "name": "API rate limiter Documentation",
+      "url": "https://rate-limiter-api.onrender.com/api/v3/api-docs"
+    }
   },
-  "host": "$www$",
+  "host": "https://rate-limiter-api.onrender.com",
+  "basePath": "/api/v3",
+  "tags": [
+    {
+      "name": "Welcome Endpoints",
+      "description": "Welcome To API rate limiter"
+    }
+  ],
   "schemes": [
-    "https"
+    "https",
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
   ],
   "paths": {
-    $END$
+    "/": {
+      "get": {
+        "tags": [
+          "welcome"
+        ],
+        "summary": "Welcome to API rate limiter",
+        "description": "This is Endpoint that allows users to access the API rate limiter",
+        "operationId": "WelcomeGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "schema": {
+                "$ref": "#/definitions/Client"
+                }
+            }
+        ],
+        "responses": {
+          "200": {
+            "description": "Welcome to API rate limiter",
+            "headers": {}
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "headers": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/sms": {
+      "post": {
+        "tags": [
+          "Send SMS"
+        ],
+        "summary": "Send SMS",
+        "description": "Endpoint to send SMS",
+        "operationId": "SmsPost",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          },
+            {
+                "name": "message",
+                "in": "body",
+                "required": true,
+                "schema": {
+                "$ref": "#/definitions/SendSms"
+                }
+                },
+          {
+            "name": "phoneNumber",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SendSms"
+            }
+          }
+            ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          },
+            "429": {
+                "description": "Too Many Requests",
+                "headers": {}
+            }
+        },
+        "deprecated": false
+      }
+    },
+    "/email": {
+      "post": {
+        "tags": [
+          "Send Email"
+        ],
+        "summary": "Send Email",
+        "description": "Endpoint to send Email",
+        "operationId": "EmailPost",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "schema": {
+              "$ref": "#/definitions/Client"
+            }
+          },
+          {"name": "subject",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SendEmail"
+            }
+            },
+            {
+                "name": "email",
+                "in": "body",
+                "required": true,
+                "schema": {
+                "$ref": "#/definitions/SendEmail"
+                }
+                },
+            {"name": "message",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SendEmail"
+            }
+            }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          },
+            "429": {
+                "description": "Too Many Requests",
+                "headers": {}
+            }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "securityDefinitions": {},
+  "definitions": {
+    "Client": {
+      "type": "object",
+      "properties": {
+        "client_id": {
+          "type": "string"
+        }
+      }
+    },
+    "SendSms": {
+      "type": "object",
+      "properties": {
+        "phoneNumber": {
+          "type": "string",
+          "default": "+250788000000"
+        },
+        "message": {
+          "type": "string",
+          "default": "Hello World"
+        }
+      }
+    },
+    "SendEmail": {
+        "type": "object",
+        "properties": {
+            "email": {
+            "type": "string",
+            "default": "hello@gmail.com"
+            },
+            "subject": {
+            "type": "string",
+            "default": "Hello World"
+            },
+            "message": {
+            "type": "string",
+            "default": "Hello World from API rate limiter"
+            }
+        }
+    }
   }
 }
