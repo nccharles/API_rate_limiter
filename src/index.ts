@@ -1,13 +1,16 @@
 import express from 'express';
 import routes from "./routes";
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../swagger.json';
 import cluster from 'cluster';
 import os from 'os';
 const numCPUs = os.cpus().length;
 
 const app = express();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use('/api-docs',  swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api/v3', routes);
 
 // if (cluster.isMaster) {
