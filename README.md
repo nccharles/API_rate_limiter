@@ -41,7 +41,7 @@ npm run test // for testing
 - https://rate-limiter-api.onrender.com/api/v3
 
 #### API Documentation
--  https://rate-limiter-api.onrender.com/api/v3/api-docs
+-  https://rate-limiter-api.onrender.com/api-docs
 
 #### User Access
 **note** you should Set Client-Id in the header to test the endpoints or your IP will be used as a client id
@@ -82,7 +82,7 @@ To test the sms endpoint, use the following example:
 | GET  | https://rate-limiter-api.onrender.com/api/v3       | Welcome Endpoint |
 | POST | https://rate-limiter-api.onrender.com/api/v3/sms   | send sms         |
 | POST | https://rate-limiter-api.onrender.com/api/v3/email | send email       |
-
+| POST | https://rate-limiter-api.onrender.com/api-docs     | API Documentation|
 
 #### Running Tests
 Tests are run by calling
