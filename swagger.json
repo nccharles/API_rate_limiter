@@ -6,10 +6,10 @@
     "title": "API rate limiter",
     "contact": {
       "name": "API rate limiter Documentation",
-      "url": "https://rate-limiter-api.onrender.com/api/v3/api-docs"
+      "url": "rate-limiter-api.onrender.com/api-docs"
     }
   },
-  "host": "https://rate-limiter-api.onrender.com",
+  "host": "rate-limiter-api.onrender.com",
   "basePath": "/api/v3",
   "tags": [
     {
@@ -51,12 +51,8 @@
             }
         ],
         "responses": {
-          "200": {
+          "OK": {
             "description": "Welcome to API rate limiter",
-            "headers": {}
-          },
-          "429": {
-            "description": "Too Many Requests",
             "headers": {}
           }
         },
