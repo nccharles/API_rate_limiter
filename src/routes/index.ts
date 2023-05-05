@@ -13,7 +13,7 @@ router.use(globalRateLimiterRedisMiddleware)
 router.use(rateLimiterRedisMiddleware)
 
 // Route for the root path
-router.use('/api-docs',  swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+router.get('/api-docs',  swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 router.get('/', (req, res) => {
     return res.status(200).json({ status: 200, message: 'Welcome to the Notification Service API!' });
 });
